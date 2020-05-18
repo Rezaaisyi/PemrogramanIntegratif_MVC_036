@@ -11,5 +11,5 @@ kali ini kita menggunakan PHP MVC untuk membuat website donasi. terdapat dua hal
 
 diatas merupakan fitur untuk menambakan donasi. pertama kita harus mengisi beberapa data sebagai user, seperti nama dan jenis kelamin. Kemudian kita mengisi barang yang kita sumbangkan beserta jumlahnya.
 
-![gambar 3](https://github.com/Rezaaisyi/PemrogramanIntegratif_MVC_036/blob/master/img/REKAP.png)
+![gambar 3](https://github.com/Rezaaisyi/PemrogramanIntegratif_MVC_036/blob/master/img/REKAP.PNG)
 diatas merupakan hasil dari inputan yang sudah kita isi. Merupakan Rekapan dari hasil yang sudah didapatkan selama Donasi.
