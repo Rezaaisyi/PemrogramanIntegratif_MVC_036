@@ -1,15 +1,148 @@
 {% extends "layout.html" %}
  
-{% block title %}Home{% endblock %}
- 
 {% block body %}
- 
-<div class="container mt-4">
-    <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">Selamat datang di dalam aplikasi PHP MVC 2</p>
-        
+  
+
+
+<div style="position: absolute;width: 100%;height: 91%;overflow: hidden;top: 60px;left: 0px;">
+    <p style="  position: absolute;
+                transform: rotate(-45deg);width: 150%;
+                font-family: 'Roboto',sans-serif;
+                font-weight: 100;font-size: 40px;z-index: -2;color: #e2e2e2;
+                " class="d-none d-xl-block"
+</div>
+<div class="container mt-5 pt-5">
+    
+    <div class="shadow p-3 mb-5 bg-white rounded bg-white" data-aos="fade-up"data-aos-duration="2000">
+        <div class="ml-3 mb-5 mt-5" style="font-family: Roboto;">
+                    <h3 style="font-family: Segoe UI;font-weight: 940;">Donasi Sekarang!</h3>
+                    {% if pesan is defined %}
+                    <div class="alert alert-light border border-dark alert-dismissible fade show col-4" role="alert">
+                        {{ pesan }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% if alert is defined %}
+                    <div class="alert alert-light border border-dark alert-dismissible fade show col-4" role="alert">
+                        {{ alert }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    <form action="{{BASE_URL}}/Home/tambah" method="POST" name="formSumbangan">
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                <label for="name">Nama</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nama anda" minlength="3">
+                            </div>
+                    
+                            <div class="form-group col-md-4">
+                                <label for="gender">Jenis Kelamin</label>
+                                <select class="form-control" id="gender" name="gender">
+                                <option value="0">Laki-Laki</option>
+                                <option value="1">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field_wrapper">
+                            <div class="row">
+                                <div class="form-group col-md-5">
+                                        <label for="jenisSumbangan[]">Jenis Sumbangan</label>
+                                        <input class="form-control" type="text" list="jenisSumbangan[]" name="jenisSumbangan[]" placeholder="Yang anda donasikan" />
+                                        <datalist id="jenisSumbangan[]">
+                                            {% for a in jenis %}
+                                            <option>{{ a.name }}</option>
+                                            {% endfor %}
+                                        </datalist>
+                                </div>
+                                <div class="form-group col-md-4">
+                                        <label for="jumlah[]">Jumlah</label>
+                                        <input type="number" class="form-control" id="jumlah[]" name="jumlah[]" placeholder="Jumlah Donasi">
+                                        <small id="jumlah" class="form-text text-muted">dalam satuan kg/pcs.</small>
+                                </div>
+                                <div class="col">
+                                    <label for="x"></label><br>
+                                    <a href="javascript:void(0);" class="add_button btn btn-outline-primary mt-2 px-3 shadow rounded" title="Tambah Sumbangan">+</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" name="submit" id="submit" class="btn btn-outline-primary">Sumbang</button>
+                    </form>
+            </div>
     </div>
 </div>
- 
+<script>
+    AOS.init();
+  </script>
+<script>
+    $('.alert').alert();
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("form[name='formSumbangan']").validate({
+            rules: {
+                name: "required",
+                "jenisSumbangan[]": "required",
+                'jumlah[]': {
+                    required: true,
+                    min: 1
+                }
+            },
+            messages: {
+                name: "<span class='badge badge badge-light'>Tolong isi nama anda</span>",
+                "jenisSumbangan[]": "<span class='badge badge badge-light'>Tolong isi jenis sumbangan anda (Beras/Obat/Uang Tunai/dll)</span>",
+                "jumlah[]": "<span class='badge badge badge-light'>tolong isi jumlah dari sumbangan anda (1/2/3/dll)</span>"
+            },
+            submitHandler: function(form){
+                form.submit();
+            }});
+        var maxField = 10;
+        var addButton = $('.add_button');
+        var wrapper = $('.field_wrapper');
+        var fieldHTML = '<div class="row"> '+
+                        '    <div class="col-5"> '+
+                        '        <div class="form-group"> '+
+                        '            <label for="jenisSumbangan[]">Jenis Sumbangan</label> '+
+                        '            <input class="form-control" type="text" list="jenisSumbangan[]" name="jenisSumbangan[]" placeholder="Contoh: Hazmat Suit"/> '+
+                        '            <datalist id="jenisSumbangan[]"> '+
+                        '                {% for a in jenis %} '+
+                        '                <option>{{ a.name }}</option> '+
+                        '                {% endfor %} '+
+                        '            </datalist> '+
+                        '        </div> '+
+                        '    </div> '+
+                        '    <div class="col-4"> '+
+                        '        <div class="form-group"> '+
+                        '            <label for="jumlah[]">Jumlah</label> '+
+                        '            <input type="number" class="form-control" id="jumlah[]" name="jumlah[]" placeholder="Contoh: 12"> '+
+                        '            <small id="jumlah" class="form-text text-muted">dalam satuan kg/pcs.</small> '+
+                        '        </div> '+
+                        '    </div> '+
+                        '    <div class="col"> '+
+                        '        <label for="x"></label><br> '+
+                        '        <a href="javascript:void(0);" class="remove_button btn btn-outline-danger shadow rounded mt-2 px-3">-</a> '+
+                        '    </div> '+
+                        '</div>';
+        var x = 1;
+        
+        
+        $(addButton).click(function(){
+            if(x < maxField){ 
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
+        });
+        
+        $(wrapper).on('click', '.remove_button', function(e){
+            e.preventDefault();
+            $(this).parent('div').parent('div').remove();
+            x--;
+        });
+    });
+    
+</script>
 {% endblock %}

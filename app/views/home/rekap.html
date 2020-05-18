@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+ 
+{% block body %}
+<style>
+      .page-item.active .page-link {
+        color: #fff !important;
+        background-color: #000 !important;
+        border-color: #000 !important; 
+        outline: none !important;
+        box-shadow: none;
+    }
+
+    .page-link {
+        color: #000 !important;
+        background-color: #fff !important;
+        outline: none !important;
+        box-shadow: none;
+        border: 1px solid #dee2e6 !important; 
+    }
+
+    .page-link:hover {
+        color: #fff !important;
+        background-color: #000 !important;
+        outline: none !important;
+        box-shadow: none;
+        border-color: #000 !important; 
+    }
+    .btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+    }
+</style>
+<div class="container-fluid mt-3" style="font-family: roboto;">
+    <div class="row">
+       
+        <div class="col-7 shadow table thead-dark bg-white rounded btn-secondary" data-aos="fade" data-aos-duration="500">
+            <table id="tablepagination" class="table table-bordered table-hover" style="font-size: 15px;">
+                <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Jenis Sumbangan</th>
+                    <th scope="col">Jumlah (kg atau pcs)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for c in data %}
+                  <tr>
+                    <th scope="row">{{ c.nomer }}</th>
+                    <td>{% if c.gender == TRUE %}Ibu {% else %}Bapak {% endif %}{{ c.name }}</td>
+                    <td>{{ c.jenis }}</td>
+                    <td>{{ c.jumlah }}</td>
+                  </tr>
+                  {% endfor %}  
+                </tbody>
+              </table>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+  AOS.init();
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#tablepagination').DataTable({
+      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Semua"]]
+    });
+} );
+    
+</script>
+{% endblock %}
